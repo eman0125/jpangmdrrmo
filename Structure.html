@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organizational Structure</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+    font-family: "Times New Roman", serif;
+    background: linear-gradient(to right, #CC3700, #FF6347, white, #87CEFA, #4682B4);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    text-align: center;
+    margin: 0;
+}
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 10px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        header .logos {
+            display: flex;
+            align-items: center;
+        }
+        header img {
+            width: 100px;
+            height: auto;
+            margin: 0 10px; /* Moves logos closer to text */
+        }
+        header .text {
+            font-size: 30px;
+            font-weight: bold;
+            text-align: center;
+            max-width: 50%;
+            line-height: 1.2;
+            white-space: normal;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            width: 100%;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin-top: 20px;
+            height: calc(100vh - 200px); /* Full height minus header, footer, and button space */
+            overflow-y: auto; /* Allow scrolling */
+        .org-title {
+    font-size: 36px;  /* Increased font size */
+    font-weight: bold;
+    margin-bottom: 10px; /* Reduced space to bring the structure image closer */
+    text-transform: uppercase;
+    color: white; /* Title color */
+    font-family: "Times New Roman", serif; /* Font family */
+    text-shadow: 2px 2px 4px black, -1px -1px 2px black, 1px -1px 2px black, -1px 1px 2px black, 1px 1px 2px black; /* Black outline */
+}
+        .zoom-container {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            cursor: grab;
+            margin-top: -20px; /* Adjusted margin to bring image closer to title */
+        }
+        .zoom-container img {
+            width: 100%;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+            transform-origin: center center;
+            position: relative;
+            background-color: transparent; /* Make background transparent */
+        }
+        .zoom-controls {
+            margin-top: 10px;
+        }
+        .btn-container {
+            position: fixed;
+            bottom: 80px; /* Distance from the bottom of the page (above footer) */
+            left: 50%;
+            transform: translateX(-50%); /* Center the buttons horizontally */
+            display: flex;
+            gap: 10px; /* Space between buttons */
+            z-index: 100; /* Ensure buttons appear above other elements */
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #FF4500;
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            border-radius: 5px;
+            transition: 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #CC3700;
+        }
+
+        footer {
+            background-color: #D3D3D3;
+            text-align: center;
+            padding: 15px;
+            width: 100%;
+            position: relative;
+            bottom: 0;
+        }
+
+footer p {
+    margin-top: 20px; /* Move the text down by 10px */
+}
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logos">
+            <img src="2.png" alt="Logo 1">
+        </div>
+        <div class="text">
+            JOSE PANGANIBAN MUNICIPAL DISASTER RISK REDUCTION <br> 
+            AND MANAGEMENT OFFICE
+        </div>
+        <div class="logos">
+            <img src="1.png" alt="Logo 2">
+        </div>
+    </header>
+    <div class="container">
+        <!-- Organizational Structure Title -->
+        <div class="org-title">Organizational Structure</div>
+        <div class="zoom-container" id="zoomContainer">
+            <img id="zoomImage" src="OrgStruc.svg" alt="Organizational Structure">
+        </div>
+        <div class="btn-container">
+            <button class="btn" onclick="adjustZoom(0.1)">Zoom In</button>
+            <button class="btn" onclick="adjustZoom(-0.1)">Zoom Out</button>
+            <button class="btn" onclick="resetZoom()">Reset Zoom</button>
+            <button class="btn" onclick="location.href='profile.html'">Profile</button>
+            <button class="btn" onclick="location.href='index.html'">Return to Home Page</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Jose Panganiban MDRRMO. All rights reserved.</p>
+    </footer>
+
+    <script>
+        let zoomLevel = 1;
+        let img = document.getElementById("zoomImage");
+        let container = document.getElementById("zoomContainer");
+        let isDragging = false;
+        let startX, startY, translateX = 0, translateY = 0;
+
+        function adjustZoom(factor) {
+            zoomLevel = Math.max(0.5, Math.min(3, zoomLevel + factor));
+            img.style.transform = `scale(${zoomLevel}) translate(${translateX}px, ${translateY}px)`;
+        }
+
+        function resetZoom() {
+            zoomLevel = 1;
+            translateX = 0;
+            translateY = 0;
+            img.style.transform = "scale(1) translate(0px, 0px)";
+        }
+
+        container.addEventListener("mousedown", (e) => {
+            isDragging = true;
+            startX = e.clientX - translateX;
+            startY = e.clientY - translateY;
+            container.style.cursor = "grabbing";
+        });
+
+        container.addEventListener("mousemove", (e) => {
+            if (!isDragging) return;
+            translateX = e.clientX - startX;
+            translateY = e.clientY - startY;
+            img.style.transform = `scale(${zoomLevel}) translate(${translateX}px, ${translateY}px)`;
+        });
+
+        container.addEventListener("mouseup", () => {
+            isDragging = false;
+            container.style.cursor = "grab";
+        });
+
+        container.addEventListener("mouseleave", () => {
+            isDragging = false;
+            container.style.cursor = "grab";
+        });
+    </script>
+</body>
+</html>
